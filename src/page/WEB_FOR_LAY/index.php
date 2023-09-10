@@ -11,7 +11,7 @@
 <?php 
 
 // global imports and variables
-require_once('../config/database.php');
+require_once('../../config/database.php');
 
 
 ?>
@@ -29,25 +29,28 @@ include_once('./container/header.php');
 
 switch ($_GET['page']) {
      case 'home':
-          require_once('../page/home.php');
+          require_once('../home.php');
           break;
      case 'insert':
-          require_once('../page/CRUD/insert.php');
+          require_once('../CRUD/insert.php');
           break;
      case 'select':
-          require_once('../page/CRUD/select.php');
+          require_once('../CRUD/select.php');
           break;
      case 'update':
-          require_once('../page/CRUD/update.php');
+          require_once('../CRUD/update.php');
           break;   
      case 'delete':
-          require_once('../page/CRUD/delete.php');
+          require_once('../CRUD/delete.php');
           break;          
      default:
           require_once('./index.php');
           break;
 }
 
+
+
+     
 
 ?>
 

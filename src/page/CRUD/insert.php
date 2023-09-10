@@ -1,6 +1,7 @@
 <h1>USER ADD</h1>
 <?php 
 
+$homeLink = getenv('HOMELINK');
 
 if(isset($_POST['register'])){
      if(isset($_POST['username']) || isset($_POST['password']) || isset($_POST['email'])){
@@ -15,7 +16,7 @@ if(isset($_POST['register'])){
           
                if($push){
                     echo 'complated data is pushed !';
-                    header("Location: http://localhost/dashboard/phpLearning/src/layout/");
+                    header("Location: $homeLink");
                }else{
                     echo 'data is not pushed !' . $insert->errorInfo()[2];
                }

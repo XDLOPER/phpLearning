@@ -1,50 +1,45 @@
-<h1>UPDATE DATA</h1>
+    <h1>UPDATE DATA</h1>
 
-<?php
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header('Location: localhost/dashboard/phpLearning/src/layout/index.php');
-    exit;
-} else {
-    $id = $_GET['id'];
-}
+    <?php
 
-// Eğer form gönderilirse
-if (isset($_POST['register'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $email = $_POST['email'];
+    $homeLink = getenv('HOMELINK');
 
-    $data = $db->prepare('UPDATE users SET 
-        username = ?,
-        password = ?,
-        email = ?
-        WHERE id = ?');
-
-    $update = $data->execute([$username, $password, $email, $id]);
-
-    if (!$update) {
-        echo 'error code ' . $data->errorInfo()[2];
-    } else {
-        // Başarıyla güncellendiğinde yönlendirme yapabilirsiniz
-        header("location: http://localhost/dashboard/phpLearning/src/layout/");
+    if (!isset($_GET['id']) || empty($_GET['id'])) {
+        header('location: $homeLink');
         exit;
+    } else {
+        $id = $_GET['id'];
     }
-}
 
-// Eski verileri al
-$userData = $db->prepare('SELECT * FROM users WHERE id = ?');
-$userDataExecute = $userData->execute([$id]);
-$user = $userData->fetch(PDO::FETCH_ASSOC);
+    $data = new UPDATE('users');
+    $prevData = $data->prevData($id);
 
-if (!$userDataExecute) {
-    echo 'error code : ' . $userData->errorInfo()[2];
-}
-?>
+    // Eğer form gönderilirse
+    if (isset($_POST['register'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $email = $_POST['email'];
 
-<form method="post" action="">
-    <input type="hidden" name="register">
-    <input type="text" required name="username" value="<?php echo $user['username'] ? $user['username'] : "" ?>" placeholder="username">
-    <input type="text" required name="password" value="<?php echo $user['password'] ? $user['password'] : "" ?>" placeholder="password">
-    <input type="email" required name="email" value="<?php echo $user['email'] ? $user['email'] : "" ?>" placeholder="email">
-    <input type="submit" value="update">
-</form>
+
+        // güncelleme işlemdi sorun var sonra yapılacak
+        $data = new UPDATE('users');
+        $data = $data->update($id,[
+            'username'=> $username,
+            'password'=> $password,
+            'email'=> $email,
+        ]);
+        print_r($data);
+
+        
+    }
+
+
+    ?>
+
+    <form method="post" action="">
+        <input type="hidden" name="register">
+        <input type="text" required name="username" value="<?php echo isset($prevData['username']) ? $prevData['username'] : "" ?>" placeholder="username">
+        <input type="text" required name="password" value="<?php echo isset($prevData['password']) ? $prevData['password'] : "" ?>" placeholder="password">
+        <input type="email" required name="email" value="<?php echo isset($prevData['email']) ? $prevData['email'] : "" ?>" placeholder="email">
+        <input type="submit" value="update">
+    </form>

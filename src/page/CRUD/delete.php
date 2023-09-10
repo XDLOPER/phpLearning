@@ -1,22 +1,20 @@
 <?php 
 
+$homeLink = getenv('HOMELINK');
 
 if(!isset($_GET['id']) || empty($_GET['id'])){
-     header("Location: http://localhost/dashboard/phpLearning/src/layout/");
+     header("location: $homeLink");
      exit;
 }
 
-$data = $db->prepare('DELETE FROM users WHERE id = ?');
-
-$data->execute([
-     $_GET['id']
-]);
+$data = new DELETE('users');
+$data = $data->delete($_GET['id']);
 
 if(!$data){
      echo 'error code' . $db->errorInfo();
 }else{
      echo 'data delete success!';
-     header("Location: http://localhost/dashboard/phpLearning/src/layout/");
+     header("location: $homeLink");
 }
 
 ?>
