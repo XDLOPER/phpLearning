@@ -4,6 +4,20 @@ body{
      
 }
 
+/* global styles */
+
+input{
+     z-index:100;
+     margin: 5px;
+}
+
+/* stop */
+
+header {
+     width: 100%;
+     height:auto;
+}
+
 .register{
      position: absolute;
      width: 30%;
